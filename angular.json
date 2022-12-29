@@ -12,7 +12,7 @@
       },
       "root": "",
       "sourceRoot": "src",
-      "prefix": "app",
+      "prefix": "my-lib",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -39,8 +39,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "3mb",
+                  "maximumError": "3mb"
                 },
                 {
                   "type": "anyComponentStyle",
