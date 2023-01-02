@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
+import { Auth, authState, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, signOut } from '@angular/fire/auth';
+import { doc, DocumentData, DocumentReference, Firestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import * as auth from 'firebase/auth';
+import { setDoc } from 'firebase/firestore';
 
 interface User {
   uid: string;
@@ -11,9 +12,11 @@ interface User {
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
+
   userData: any;
-  constructor(public afAuth: AngularFireAuth, public afs: AngularFirestore, public router: Router,) {
-    this.afAuth.authState.subscribe((user) => {
+  constructor(public auth: Auth, public firestore: Firestore, public router: Router) {
+
+    authState(auth).subscribe((user) => {
       if (user) {
         this.userData = user;
         localStorage.setItem('user', JSON.stringify(this.userData));
@@ -26,8 +29,7 @@ export class AuthService {
   }
   async signup(email: string, password: string) {
     try {
-      const result = await this.afAuth
-        .createUserWithEmailAndPassword(email, password);
+      const result = await createUserWithEmailAndPassword(this.auth, email, password);
       await this.login(email, password);
     } catch (error) {
       console.error(error);
@@ -36,10 +38,9 @@ export class AuthService {
   // Sign in with email/password
   async login(email: string, password: string) {
     try {
-      const result = await this.afAuth
-        .signInWithEmailAndPassword(email, password);
+      const result = await signInWithEmailAndPassword(this.auth, email, password);
       this.setUserData(result.user);
-      this.afAuth.authState.subscribe((user) => {
+      authState(this.auth).subscribe((user) => {
         if (user) {
           this.router.navigate(['my-books']);
         }
@@ -54,17 +55,18 @@ export class AuthService {
     this.router.navigate(['my-books']);
   }
 
-  // Returns true when user is looged in and email is verified
+  // Returns true when user is logged in and email is verified
   get isLoggedIn(): boolean {
     const user = JSON.parse(localStorage.getItem('user')!);
-    return user !== 'null' ? true : false;
+
+
+    return user !== null ? true : false;
   }
 
   // Auth logic to run auth providers
   async AuthLogin(provider: any) {
     try {
-      const result = await this.afAuth
-        .signInWithPopup(provider);
+      const result = await signInWithPopup(this.auth, provider);
       this.router.navigate(['my-books']);
       this.setUserData(result.user);
     } catch (error) {
@@ -76,23 +78,21 @@ export class AuthService {
 sign up with username/password and sign in with social auth  
 provider in Firestore database using AngularFirestore + AngularFirestoreDocument service */
   setUserData(user: any) {
-    const userRef: AngularFirestoreDocument<any> = this.afs.doc(
+    const userRef: DocumentReference<DocumentData> = doc(this.firestore,
       `users/${user.uid}`
     );
     const userData: User = {
       uid: user.uid,
       email: user.email,
     };
-    return userRef.set(userData, {
-      merge: true,
-    });
+    return setDoc(userRef, userData, { merge: true });
   }
 
   // Sign out
-  SignOut() {
-    return this.afAuth.signOut().then(() => {
+  logOut() {
+    return signOut(this.auth).then(() => {
       localStorage.removeItem('user');
-      this.router.navigate(['login']);
+      this.router.navigate(['/', 'login']);
     });
   }
 

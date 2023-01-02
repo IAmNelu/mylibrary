@@ -1,6 +1,7 @@
 import { Component, importProvidersFrom, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'my-lib-navbar',
@@ -9,27 +10,11 @@ import { Subscription } from 'rxjs';
   imports: [RouterModule],
 })
 
-export class NavbarComponent implements OnInit, OnDestroy {
-  url: string;
-  subscription: Subscription;
-  constructor(public route: ActivatedRoute, private router: Router) {
-    this.url = this.route.snapshot.url[0].path;
-    this.subscription = this.route.url.subscribe(url => {
-      this.url = url[0].path;
-      console.log(this.url);
-
-    });
+export class NavbarComponent {
 
 
-  }
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+  constructor(public route: ActivatedRoute, public authS: AuthService) {
   }
 
-  ngOnInit() {
-    console.log(this.url);
-    console.log(this.route.snapshot.url);
 
-
-  }
 }

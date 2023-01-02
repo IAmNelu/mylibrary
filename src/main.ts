@@ -1,18 +1,15 @@
-import { enableProdMode, importProvidersFrom } from '@angular/core';
-
+import { importProvidersFrom } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { AppComponent } from './app/app.component';
 import { RouterModule } from '@angular/router';
 import routes from './app/routes';
+import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
+import { provideFirestore, getFirestore } from '@angular/fire/firestore';
+import { provideAuth, getAuth } from '@angular/fire/auth';
 
-import { provideFirebaseApp, getApp, initializeApp } from '@angular/fire/app';
-import { getFirestore, provideFirestore } from '@angular/fire/firestore';
-import { AuthService } from './app/services/auth.service';
-import { AngularFireAuth, AngularFireAuthModule, SETTINGS as AUTH_SETTINGS } from '@angular/fire/compat/auth';
-import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
-import { AngularFireStorageModule } from '@angular/fire/compat/storage';
-import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/compat/firestore';
+// import { getAuth } from 'firebase/auth';
 
 const firebaseConfig = {
   apiKey: "AIzaSyDJmoC0Ie2ocRn3eMjdJrj2KQ5j8huhZeI",
@@ -30,18 +27,9 @@ bootstrapApplication(AppComponent, {
     importProvidersFrom(
       RouterModule.forRoot(routes,),
     ),
-    // importProvidersFrom(
-    //   provideFirebaseApp(() => initializeApp(firebaseConfig)),
-
-    // ),
-    importProvidersFrom(AngularFireModule.initializeApp(firebaseConfig)),
-    importProvidersFrom(
-      provideFirestore(() => getFirestore())
-    ),
-    importProvidersFrom(AngularFireAuthModule),
-    importProvidersFrom(AngularFirestoreModule),
-    importProvidersFrom(AngularFireStorageModule),
-    importProvidersFrom(AngularFireDatabaseModule),
+    importProvidersFrom(provideFirebaseApp(() => initializeApp(firebaseConfig))),
+    importProvidersFrom(provideAuth(() => getAuth())),
+    importProvidersFrom(provideFirestore(() => getFirestore()))
   ]
 })
   .catch(err => console.error(err)); 

@@ -10,13 +10,7 @@ import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
   standalone: true,
   selector: 'app-root',
   template: `<router-outlet></router-outlet>`,
-  imports: [
-    RouterModule,
-    AngularFireAuthModule,
-    AngularFirestoreModule,
-    AngularFireStorageModule,
-    AngularFireDatabaseModule
-  ]
+  imports: [RouterModule]
 })
 export class AppComponent {
   title = 'mylibrary';
