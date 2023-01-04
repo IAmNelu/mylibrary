@@ -1,25 +1,37 @@
-<div class="container mt-3">
+<div class="container mt-5 max-width" [formGroup]="signupFG">
   <div class="row mx-5">
-    <h3>
+    <h3 class="text-center">
       Sign Up
     </h3>
   </div>
-  <div class="form-floating mb-3">
-    <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" [formControl]="email">
-    <label for="floatingInput">Email address</label>
+  <div class="form-floating mb-3 mt-4">
+    <input type="email" class="form-control" id="email" placeholder="name@example.com" formControlName="email"
+      [class.is-invalid]="emailInvalid">
+    <label for="email">Email address</label>
   </div>
   <div class="form-floating  mb-3">
-    <input type="password" class="form-control" id="floatingPassword" placeholder="Password" [formControl]="password">
-    <label for="floatingPassword">Password</label>
+    <input type="password" class="form-control" id="password" placeholder="Password" formControlName="password"
+      [class.is-invalid]="passInvalid">
+    <label for="password">Password</label>
+    <div class="invalid-feedback">
+      Please provide a password.
+    </div>
   </div>
-  <div class="form-floating">
-    <input type="password" class="form-control" id="floatingPassword2" placeholder="Password">
-    <label for="floatingPassword2">Retype your password</label>
+  <div class="form-floating mb-4">
+    <input type="password" class="form-control" id="confirmPassword" placeholder="Password"
+      formControlName="confirmPassword" [class.is-invalid]="cPassInvalid">
+    <label for="confirmPassword">Retype your password</label>
+    <div class="invalid-feedback">
+      Password does not match
+    </div>
   </div>
-  <div class="row mt-3 mx-2">
-    <button type="button" class="btn btn-primary" (click)="signup()">Log In</button>
+  <div class="row mb-3 mx-2">
+    <button type="button" class="btn btn-primary" (click)="signup()">Sign Up</button>
   </div>
-  <div class="row mt-3 mx-2">
+  <div class="row mb-3 mx-2">
     <button type="button" class="btn btn-primary" (click)="auth.googleAuth()">Log with google</button>
+  </div>
+  <div class="row mx-2">
+    <button type="button" class="btn btn-primary" [routerLink]="['/login']">Already a user? Log In!</button>
   </div>
 </div>

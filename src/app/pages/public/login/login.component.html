@@ -1,0 +1,30 @@
+<div class="container mt-5 max-width">
+  <div class="row mx-5">
+    <h3 class="text-center">Log In</h3>
+  </div>
+  <div class="form-floating mb-3 mt-4">
+    <input type="email" id="email" class="form-control" [class.is-invalid]="email.invalid && email.touched"
+      placeholder="name@example.com" [formControl]="email">
+    <label for="email">Email address</label>
+    <div class="invalid-feedback">
+      Please provide a valid email.
+    </div>
+  </div>
+  <div class="form-floating mb-4">
+    <input type="password" id="password" class="form-control" [class.is-invalid]="password.invalid && password.touched"
+      placeholder="password" [formControl]="password">
+    <label for="floatingPassword">Password</label>
+    <div class="invalid-feedback">
+      Please provide a password.
+    </div>
+  </div>
+  <div class="row mb-3 mx-2">
+    <button type="button" class="btn btn-primary" (click)="logIn()">Log In</button>
+  </div>
+  <div class="row mb-3 mx-2">
+    <button type="button" class="btn btn-primary" (click)="authS.googleAuth()">Log with google</button>
+  </div>
+  <div class="row mx-2">
+    <button type="button" class="btn btn-primary" [routerLink]="['/signup']">New user? Sign up!</button>
+  </div>
+</div>
