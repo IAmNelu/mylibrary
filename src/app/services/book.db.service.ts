@@ -28,5 +28,14 @@ export class BookDBService {
     let q = query(booksRef);
     return collectionData(q) as unknown as Observable<Book[]>;
   }
+
+  async getBook(id: string): Promise<Book | {}> {
+    const docRef = doc(this.firestore, "books", id);
+    const r = await getDoc(docRef);
+    if (r.data === undefined) {
+      return {};
+    }
+    return r.data() as Book;
+  }
 }
 
