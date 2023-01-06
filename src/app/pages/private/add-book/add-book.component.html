@@ -1,0 +1,44 @@
+<div class="container mt-5 max-width" [formGroup]="bookFG">
+  <div class="row mx-5">
+    <h3 class="text-center">
+      NewBook
+    </h3>
+  </div>
+  <div class="form-floating mb-3 mt-4">
+    <input type="text" class="form-control" id="title" placeholder="Il labirinto degli spiriti" formControlName="title"
+      [class.is-invalid]="bookFG.get('title')!.invalid && bookFG.get('title')!.touched">
+    <label for="title">Title of the book</label>
+    <div class="invalid-feedback">
+      Please provide a title.
+    </div>
+  </div>
+
+  <div class="form-floating  mb-3">
+    <input type="text" class="form-control" id="author" placeholder="Carlos Ruiz Zafon" formControlName="author"
+      [class.is-invalid]="bookFG.get('author')!.invalid && bookFG.get('author')!.touched">
+    <label for="author">Author of the book</label>
+    <div class="invalid-feedback">
+      Please provide the author of the book.
+    </div>
+  </div>
+  <div class="form-floating mb-3">
+    <input type="number" class="form-control" id="yearRead" placeholder="2022" formControlName="yearRead"
+      [class.is-invalid]="bookFG.get('yearRead')!.invalid && bookFG.get('yearRead')!.touched">
+    <label for="yearRead">When did you read the book (year)?</label>
+    <div class="invalid-feedback">
+      Please provide the year when you read the book.
+    </div>
+  </div>
+  <div class="form-floating mb-4">
+    <input type="text" class="form-control" id="coverUrl" placeholder="coverUrl" formControlName="coverUrl"
+      [class.is-invalid]="bookFG.get('coverUrl')!.invalid && bookFG.get('coverUrl')!.touched">
+    <label for="coverUrl">What is the cover image url?</label>
+    <div class="invalid-feedback">
+      Please provide a cover link
+    </div>
+  </div>
+  <div class="row mb-3 mx-2">
+    <button type="button" class="btn btn-primary" (click)="addBook()">Add Book</button>
+
+  </div>
+</div>

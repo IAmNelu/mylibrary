@@ -8,6 +8,9 @@
     <input type="email" class="form-control" id="email" placeholder="name@example.com" formControlName="email"
       [class.is-invalid]="emailInvalid">
     <label for="email">Email address</label>
+    <div class="invalid-feedback">
+      Please provide a valid email.
+    </div>
   </div>
   <div class="form-floating  mb-3">
     <input type="password" class="form-control" id="password" placeholder="Password" formControlName="password"
