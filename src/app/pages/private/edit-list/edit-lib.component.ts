@@ -3,8 +3,7 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'my-lib-edit-lib',
-  template: `<h2>My Edit</h2>
-    <button (click)="goTo()"> Test</button>
+  template: `<h2>Edit Page -- Work in Progress</h2>
   `,
   standalone: true
 })
@@ -13,9 +12,4 @@ export class EditLibComponent implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit() { }
-
-
-  goTo() {
-    this.router.navigate(['home', 'edit-book', '2vYGVzTnAJztjyCCZrfv']);
-  }
 }

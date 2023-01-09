@@ -52,8 +52,15 @@ export class AuthService {
   }
   // Sign in with Google
   async googleAuth() {
-    const _ = await this.AuthLogin(new GoogleAuthProvider());
-    this.router.navigate(['my-books']);
+    try {
+      const _ = await this.AuthLogin(new GoogleAuthProvider());
+      while (!this.isLoggedIn) {
+        await new Promise(resolve => setTimeout(resolve, 100));
+      }
+      this.router.navigate(['/home', 'my-books']);
+    } catch (error) {
+
+    }
   }
 
   // Returns true when user is logged in and email is verified
@@ -66,7 +73,6 @@ export class AuthService {
   async AuthLogin(provider: any) {
     try {
       const result = await signInWithPopup(this.auth, provider);
-      this.router.navigate(['my-books']);
       this.setUserData(result.user);
     } catch (error) {
       window.alert(error);

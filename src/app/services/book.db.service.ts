@@ -41,12 +41,28 @@ export class BookDBService {
   }
 
   async getBook(id: string): Promise<Book | {}> {
-    const docRef = doc(this.firestore, "books", id);
-    const r = await getDoc(docRef);
-    if (r.data === undefined) {
+    const b = (await this.getBooks()).find(b => b.bid === id);
+    if (b === undefined) {
       return {};
     }
-    return r.data() as Book;
+    return b;
+  }
+
+  async editBook(b: Book) {
+    const uid = this.authS.user.uid;
+    const booksRef = doc(this.firestore, `books/${uid}`);
+    const books = (await getDoc(booksRef)).data()!['books'] as Book[];
+    const newBooks = books.filter(book => book.bid !== b.bid);
+    newBooks.push(b);
+    return setDoc(booksRef, { books: newBooks }, { merge: true });
+  }
+
+  async deleteBook(b: Book) {
+    const uid = this.authS.user.uid;
+    const booksRef = doc(this.firestore, `books/${uid}`);
+    const books = (await getDoc(booksRef)).data()!['books'] as Book[];
+    const newBooks = books.filter(book => book.bid !== b.bid);
+    return setDoc(booksRef, { books: newBooks }, { merge: true });
   }
 }
 

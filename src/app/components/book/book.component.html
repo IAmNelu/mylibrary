@@ -1,6 +1,9 @@
-<ul>
-  <li>Title: <strong>{{book.title}}</strong></li>
-  <li>Author: <strong>{{book.author}}</strong></li>
-  <li>Cover: <strong>{{book.coverUrl}}</strong></li>
-
-</ul>
+<div class="book">
+  <div class="side spine" [style.height]="sHeight" [style.top]="sTop">
+    <span class="spine-title"> {{book.title}} </span>
+    <span class="spine-author"> {{book.author | authorName }} </span>
+  </div>
+  <div class="side top" [style.top]="tTop"></div>
+  <div class="side cover" [style.height]="cHeight" [style.top]="cTop"
+    [style.background-image]="'url(\'' +  book.coverUrl + '\')'" (click)="openBook()"></div>
+</div>

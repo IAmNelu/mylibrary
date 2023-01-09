@@ -1,8 +1,10 @@
-<div class="container mt-5 max-width" [formGroup]="bookFG">
-  <div class="row mx-5">
-    <h3 class="text-center">
-      NewBook
-    </h3>
+<h2 class="page-title">
+  {{title}}
+</h2>
+
+<div class=" container mt-5 max-width" [formGroup]="bookFG">
+  <div class="cover-container" *ngIf="isEditing">
+    <img [src]="book.coverUrl" [alt]="book.title + 'cover'">
   </div>
   <div class="form-floating mb-3 mt-4">
     <input type="text" class="form-control" id="title" placeholder="Il labirinto degli spiriti" formControlName="title"
@@ -31,14 +33,28 @@
   </div>
   <div class="form-floating mb-4">
     <input type="text" class="form-control" id="coverUrl" placeholder="coverUrl" formControlName="coverUrl"
-      [class.is-invalid]="bookFG.get('coverUrl')!.invalid && bookFG.get('coverUrl')!.touched">
+      [class.is-invalid]="bookFG.get('coverUrl')!.invalid && bookFG.get('coverUrl')!.touched" (blur)="updateLink()">
     <label for="coverUrl">What is the cover image url?</label>
     <div class="invalid-feedback">
       Please provide a cover link
     </div>
   </div>
+  <div class="cover-container mb-3" *ngIf="!isEditing">
+    <img [src]="book.coverUrl ? book.coverUrl : 'https://via.placeholder.com/70x100?text=CoverHere'"
+      [alt]="book.title + 'cover'">
+  </div>
   <div class="row mb-3 mx-2">
-    <button type="button" class="btn btn-primary" (click)="addBook()">Add Book</button>
-
+    <ng-container *ngIf="!isEditing;else updateBook">
+      <button type="button" class="btn btn-primary" (click)="addBook()">Add Book</button>
+    </ng-container>
+    <ng-template #updateBook>
+      <button type="button" class="btn btn-primary" (click)="editBook()">Edit Book</button>
+    </ng-template>
+  </div>
+  <div class="row mb-3 mx-2" *ngIf="isEditing">
+    <button type="button" class="btn btn-danger" (click)="deleteBook()">Delete Book</button>
+  </div>
+  <div class="row mb-3 mx-2">
+    <button type="button" class="btn btn-primary" (click)="cancel()">Cancel</button>
   </div>
 </div>

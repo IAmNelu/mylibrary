@@ -26,7 +26,7 @@ bootstrapApplication(AppComponent, {
   providers: [
     importProvidersFrom(
       RouterModule.forRoot(routes,
-        //  { enableTracing: true }
+        // { enableTracing: true }
       ),
     ),
     importProvidersFrom(provideFirebaseApp(() => initializeApp(firebaseConfig))),

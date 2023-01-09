@@ -1,6 +1,14 @@
-<h2>My Books</h2>
-<ng-container *ngFor="let book of books">
-  <my-lib-book [book]="book"></my-lib-book>
-</ng-container>
-
-<button class="btn btn-primary" [routerLink]="['/home', 'new-book']">Add a book</button>
+<h2 class="page-title">My Books</h2>
+<div class="bookshelf px-5">
+  <div *ngIf="shelves.length === 0">
+    <h4>
+      It looks like your bookshelf is empty! It's time to read (or add a book that you have
+      read)
+    </h4>
+  </div>
+  <my-lib-shelf [books]="bookShelves[shelf]" [tag]="shelf + ''" *ngFor="let shelf of shelves"></my-lib-shelf>
+</div>
+<div class="my-5"></div>
+<div class="text-center">
+  <button class="btn btn-primary " [routerLink]="['/home', 'new-book']">Add a book</button>
+</div>
